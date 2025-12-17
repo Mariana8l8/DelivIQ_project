@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DelivIQ - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/common.css" />
+    <link rel="stylesheet" href="~/css/layout.css" />
+    <link rel="stylesheet" href="~/css/dashboard.css" />
+    <link rel="stylesheet" href="~/css/orders.css" />
+    <link rel="stylesheet" href="~/css/couriers.css" />
+    <link rel="stylesheet" href="~/css/locations.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" /> 
+</head>
+<body>
+    @if (ViewData["HideSidebar"] == null)
+    {
+
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+
+        <div class="app-container">
+            <aside class="sidebar">
+                <div class="brand-wrapper">
+                    <div class="brand">DelivIQ</div>
+                    <div class="brand-divider"></div>
+                </div>
+                <nav class="sidebar-nav">
+                    <a asp-controller="Home" asp-action="Dashboard"
+                       class="nav-link @(currentController == "Home" && currentAction == "Dashboard" ? "active" : "")">
+                        <img src="~/img/icon-dashboard.svg" alt="" class="nav-icon" />
+                        <span>Дашборд</span>
+                    </a>
+                    <a asp-controller="Orders" asp-action="Index"
+                       class="nav-link @(currentController == "Orders" ? "active" : "")">
+                        <img src="~/img/icon-orders.svg" alt="" class="nav-icon" />
+                        <span>Замовлення</span>
+                    </a>
+                    <a asp-controller="Couriers" asp-action="Index"
+                       class="nav-link @(currentController == "Couriers" ? "active" : "")">
+                        <img src="~/img/icon-couriers.svg" alt="" class="nav-icon" />
+                        <span>Кур'єри</span>
+                    </a>
+                    <a asp-controller="Locations" asp-action="Index"
+                       class="nav-link @(currentController == "Locations" ? "active" : "")">
+                        <img src="~/img/icon-locations.svg" alt="" class="nav-icon" />
+                        <span>Локації</span>
+                    </a>
+                </nav>
+            </aside>
+            <main class="main-content">
+                @RenderBody()
+            </main>
+        </div>
+    }
+    else
+    {
+        @RenderBody()
+    }
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

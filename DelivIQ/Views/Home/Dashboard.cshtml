@@ -1,0 +1,87 @@
+@using DelivIQ.Models.ViewModels
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Дашборд";
+}
+
+<div class="dashboard-header-row">
+    <h2>Головна панель</h2>
+    <a asp-controller="Orders" asp-action="Create" class="btn-primary">+ Нове замовлення</a>
+</div>
+
+<div class="dashboard-meta">
+    <span>Замовлень: @Model.TotalOrders</span>
+    <span>Кур’єри: @Model.TotalCouriers</span>
+</div>
+
+<div class="dashboard-top">
+    <div class="card">
+        <h3>Зайнятість кур'єрів</h3>
+        <div class="courier-circle-wrapper">
+            <canvas id="courierChart"></canvas>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Карта локацій</h3>
+        <div id="map"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const busy = @Model.BusyCouriers;
+            const free = @Model.FreeCouriers;
+
+            const ctx = document.getElementById('courierChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Зайняті', 'Вільні'],
+                    datasets: [{
+                        data: [busy, free],
+                        backgroundColor: ['#20c997', '#fab005']
+                    }]
+                },
+                options: {
+                    cutout: '65%',
+                    plugins: {
+                    legend: { position: 'bottom', labels: { boxWidth: 10 } }
+                }
+            }
+        });
+
+        const locations = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+            Model.Locations.Select(l => new { name = l.Name, latitude = l.Latitude, longitude = l.Longitude })
+            ));
+
+        const map = L.map('map');
+
+            if (locations.length > 0) {
+
+                const bounds = [];
+
+                locations.forEach(loc => {
+                    if (loc.latitude && loc.longitude) {
+                        bounds.push([loc.latitude, loc.longitude]);
+                        L.marker([loc.latitude, loc.longitude])
+                            .addTo(map)
+                            .bindPopup(loc.name);
+                    }
+                });
+
+                map.fitBounds(bounds, { padding: [50, 50] });
+
+            } else {
+                map.setView([49.8413, 24.0322], 12);
+            }
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap'
+            }).addTo(map);
+
+        });
+    </script>
+}

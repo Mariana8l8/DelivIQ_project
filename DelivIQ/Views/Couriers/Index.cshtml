@@ -1,0 +1,55 @@
+@model IEnumerable<DelivIQ.Models.Courier>
+@{
+    ViewData["Title"] = "Кур'єри";
+}
+
+<div class="header-flex">
+    <h2>Кур'єри</h2>
+    <a asp-action="Create" class="btn-primary">+ Додати</a>
+</div>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Ім'я</th>
+                <th>Транспорт</th>
+                <th>Статус</th>
+                <th>Широта</th>
+                <th>Довгота</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var c in Model) {
+                <tr>
+                    <td>
+                        @c.FullName
+                        <br />
+                        <small>@c.Phone</small>
+                    </td>
+                    <td>@c.TransportType</td>
+                    <td class="courier-status">
+                        <span class="@(
+                            c.Status switch {
+                                DelivIQ.Models.CourierStatus.Free => "courier-status-online",
+                                DelivIQ.Models.CourierStatus.Busy => "courier-status-busy",
+                                _ => "courier-status-offline"
+                            })">
+                            @c.StatusLabelUa
+                        </span>
+                    </td>
+                    <td>@c.Latitude</td>
+                    <td>@c.Longitude</td>
+                    <td>
+                        <form asp-action="Delete" asp-route-id="@c.Id">
+                            <button class="btn-cancel" title="Видалити кур'єра">
+                                ✖
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

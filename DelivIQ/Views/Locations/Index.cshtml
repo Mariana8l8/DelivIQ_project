@@ -1,0 +1,40 @@
+@model IEnumerable<DelivIQ.Models.Location>
+@{
+    ViewData["Title"] = "Локації";
+}
+
+<div class="header-flex">
+    <h2>Локації</h2>
+    <a asp-action="Create" class="btn-primary">+ Додати</a>
+</div>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Назва</th>
+                <th>Контакт</th>
+                <th>Широта</th>
+                <th>Довгота</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var l in Model) {
+                <tr>
+                    <td>@l.Name</td>
+                    <td>@l.ContactPhone</td>
+                    <td>@l.Latitude</td>
+                    <td>@l.Longitude</td>
+                    <td>
+                        <form asp-action="Delete" asp-route-id="@l.Id">
+                            <button class="btn-cancel" title="Видалити локацію">
+                                ✖
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

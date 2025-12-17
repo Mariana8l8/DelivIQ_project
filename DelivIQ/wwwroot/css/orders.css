@@ -1,0 +1,40 @@
+.orders-table td:nth-child(1) {
+    width: 60px;
+}
+
+.orders-table td:nth-child(2) {
+    min-width: 140px;
+}
+
+.orders-table td:nth-child(3),
+.orders-table td:nth-child(4),
+.orders-table td:nth-child(5) {
+    white-space: nowrap;
+}
+
+.header-flex .btn-primary + .btn-primary {
+    margin-left: 8px;
+}
+
+.btn-complete {
+    padding: 4px 8px;
+    display: flex;
+}
+
+.btn-cancel {
+    padding: 4px 8px;
+    display: flex;
+}
+
+.form-complete {
+    display: inline;
+}
+
+.form-cancel {
+    display: inline;
+    margin-left: 5px;
+}
+
+.btn-block-comlete-cancel {
+    display: flex;
+}

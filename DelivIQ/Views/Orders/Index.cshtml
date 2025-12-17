@@ -1,0 +1,83 @@
+@model IEnumerable<DelivIQ.Models.Dtos.OrderDto>
+@{
+    ViewData["Title"] = "Замовлення";
+}
+
+<div class="header-flex">
+    <h2>Активні замовлення</h2>
+    <div>
+        <a asp-action="ExportXlsx" class="btn-primary">⬇ Експорт історії замовлень в XLSX</a>
+        <a asp-action="Create" class="btn-primary">+ Створити</a>
+    </div>
+</div>
+
+<div class="table-container">
+    <table class="orders-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Клієнт</th>
+                <th>Локація</th>
+                <th>Сума</th>
+                <th>Статус</th>
+                <th>Кур'єр</th>
+                <th>Інфо</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>#@item.Id</td>
+                    <td>
+                        @item.CustomerName
+                        <br />
+                    </td>
+                    <td>@item.LocationName</td>
+                    <td>@item.TotalPrice грн</td>
+                    <td>
+                        <span class="status-badge @item.StatusCssClass">
+                            @item.StatusLabelUa
+                        </span>
+                    </td>
+                    <td>@item.CourierName</td>
+                    <td>
+                        <details class="details-small">
+                            <summary>Інфо</summary>
+                            <small>
+                                @if (!string.IsNullOrWhiteSpace(item.CourierName))
+                                {
+                                    <text>
+                                        Кур'єр: @item.CourierName (@item.CourierPhone)
+                                        <br />
+                                        Координати кур'єра: (@item.CourierLatitude, @item.CourierLongitude)
+                                        <br />
+                                        Координати клієнта: (@item.CustomerLatitude, @item.CustomerLongitude)
+                                    </text>
+                                }
+                                else
+                                {
+                                    <text>Кур'єр ще не призначений.</text>
+                                }
+                            </small>
+                        </details>
+                    </td>
+                    <td class="btn-block-comlete-cancel">
+                        <form asp-action="Complete" asp-route-id="@item.Id" class="form-complete">
+                            <button class="btn-complete" title="Позначити як доставлене">
+                                ✔
+                            </button>
+                        </form>
+                        <form asp-action="Cancel" asp-route-id="@item.Id" class="form-cancel">
+                            <button class="btn-cancel" title="Скасувати замовлення">
+                                ✖
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+  

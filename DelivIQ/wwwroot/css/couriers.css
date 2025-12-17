@@ -1,0 +1,24 @@
+.courier-status {
+    font-size: 13px;
+}
+
+.courier-status span {
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+}
+
+.courier-status-online {
+    background: #e6fcf5;
+    color: #0ca678;
+}
+
+.courier-status-busy {
+    background: #fff4e6;
+    color: #f08c00;
+}
+
+.courier-status-offline {
+    background: #fff5f5;
+    color: #e03131;
+}
