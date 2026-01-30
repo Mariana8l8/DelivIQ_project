@@ -1,74 +1,78 @@
-Інструкція з запуску проєкту
-1. Необхідне програмне забезпечення
+# Project Setup and Run Instructions
 
-Перед початком роботи на комп’ютері має бути встановлено:
+This document describes how to set up and run the project locally.
 
-Visual Studio 2022 (версія 17.x або новіша)
+---
 
-Робоче навантаження ASP.NET and Web Development
+## Prerequisites
 
-.NET SDK 8.0
+Before starting, make sure the following software is installed on your computer:
 
-Microsoft SQL Server (LocalDB або повна версія)
+- Visual Studio 2022 (version 17.x or later)
+- ASP.NET Core MVC and Web Development workload
+- .NET SDK 8.0
+- Microsoft SQL Server (LocalDB or full version)
+- Git
 
-Git (для клонування репозиторія)
+---
 
-2. Клонування репозиторія
+## Clone the Repository
 
-Відкрити Command Prompt або Git Bash
+Open **Command Prompt** or **Git Bash** and navigate to the directory where you want to store the project.
 
-Перейти до папки, де буде збережено проєкт
+Run the following command:
 
-Виконати команду:
+```bash
+git clone <repository_url>
+```
 
-git clone <URL_репозиторія>
+After the cloning process is complete, navigate to the project directory.
 
+---
 
-Після завершення клонування перейти до папки проєкту
+## Open the Project in Visual Studio
 
-3. Відкриття проєкту у Visual Studio
+1. Launch Visual Studio
+2. Select **Open a project or solution**
+3. Open the solution file with the `.sln` extension
+4. Wait until all dependencies are fully restored
 
-Запустити Visual Studio
+---
 
-Обрати пункт Open a project or solution
+## Configure the Database Connection
 
-Відкрити файл рішення з розширенням .sln
+1. Open the `appsettings.json` file
+2. Verify or update the connection string:
 
-Дочекатися завершення завантаження всіх залежностей
-
-4. Налаштування підключення до бази даних
-
-Відкрити файл appsettings.json
-
-Перевірити або змінити рядок підключення:
-
-"ConnectionStrings": {
-  "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=DelivIQDb;Trusted_Connection=True;"
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=DelivIQDb;Trusted_Connection=True;"
+  }
 }
+```
 
+3. Ensure that SQL Server is running and accessible on your local machine
 
-Переконатися, що SQL Server доступний на локальному комп’ютері
+---
 
-5. Застосування міграцій бази даних
+## Apply Database Migrations
 
-У Visual Studio відкрити:
+1. In Visual Studio, open  
+   **Tools → NuGet Package Manager → Package Manager Console**
+2. Select the project that contains the `DbContext`
+3. Run the following command:
 
-Tools → NuGet Package Manager → Package Manager Console
-
-
-Обрати проєкт, що містить DbContext
-
-Виконати команду:
-
+```powershell
 Update-Database
+```
 
+After the command completes, the database will be created automatically.
 
-Після виконання команди база даних буде створена автоматично
+---
 
-6. Запуск проєкту
+## Run the Project
 
-У верхній панелі Visual Studio обрати профіль IIS Express або https
-
-Натиснути кнопку Run або клавішу F5
-
-Після запуску у браузері відкриється вебзастосунок
+1. In the Visual Studio top toolbar, select **IIS Express** or **https** as the startup profile
+2. Click **Run** or press **F5**
+3. After startup, the web application will open automatically in your browser
